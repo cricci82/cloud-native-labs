@@ -1,5 +1,4 @@
-
-}ckage com.redhat.cloudnative.inventory;
+package com.redhat.cloudnative.inventory;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
