@@ -16,6 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import rx.Observable;
 import rx.Single;
+import java.util.Date;
+import java.sql.Timestamp;
 
 public class GatewayVerticle extends AbstractVerticle {
     private static final Logger LOG = LoggerFactory.getLogger(GatewayVerticle.class);
@@ -25,10 +27,13 @@ public class GatewayVerticle extends AbstractVerticle {
 
     @Override
     public void start() {
+        Date date = new Date();
+        long time = date.getTime();
+        Timestamp ts = new Timestamp(time);
         Router router = Router.router(vertx);
         router.route().handler(CorsHandler.create("*").allowedMethod(HttpMethod.GET));
         router.get("/health").handler(ctx -> ctx.response().end(new JsonObject().put("status", "UP").toString()));
-        router.get("/hello").handler(ctx -> ctx.response().end(new JsonObject().put("message", "Hello, World! - Update").toString() + "\n"));
+        router.get("/hello").handler(ctx -> ctx.response().end(new JsonObject().put("message", ts + " Hello, World! - Update").toString() + "\n"));
         router.get("/api/products").handler(this::products);
 
         ServiceDiscovery.create(vertx, discovery -> {
