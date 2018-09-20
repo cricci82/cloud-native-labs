@@ -20,7 +20,7 @@ pipeline {
             def dc = openshift.selector("dc", "gateway")
             dc.rollout().latest()
             dc.rollout().status()
-            sh "oc set route-backends hello-world hello-world=90 hello-world-canary=10"
+            sh "oc set route-backends gateway gateway=90 gateway-canary=10"
           }
         }
       }
@@ -50,31 +50,16 @@ pipeline {
                         openshift.selector('dc', 'gateway-canary').rollout().status()
 
                         //set canary imagestream back to production tag
-                        openshift.tag("coolstore/gateway:latest", "coolstore/gateway-canary:latest")
-                    }
-                }
+                        openshift.tag("coolstore/gateway:latest", "coolstore      ay-can        st                                         }
             }
-        }
-    }
-    stage("Production deployment") {
-    when{
-        expression {
-            return promoteOrRollback != 'Rollback' //Promote or null (first deployment)
-        }
-    }
-    steps {
-        script {
-                shi   withCluster() {
+            } }
+                                                                                        rom                                                                                        rom                                 enshift.withCluster() {
                 openshift.withProject("coolstore") {
                     //Tag latest from build namespace
-                    openshift.tag("coolstore/gateway-canary:latest", "coolstore/gateway:latest")
-
+                    opensh    tag("coolstore/gatewa                    opensh    tag("coolstore/g
                     /***
-                     * Rollout
-                     **/
-                    openshift.selector('dc', gateway).rollout().latest()
-                    //wait for rollout. It waits until pods are running (if readiness probe is set)
-                    openshift.selector('dc', gateway).rollout().status()
+                    /***
+h    tag("co   h    tag("co   h    tag("co   h    tag("co   h    tag(('dh    tag("co   h    tag("co   h    tag("co   h    tag("co   h    tag(('dh    taits unh    tag("co   h    tag("co   h    tag("cish    tag("co   h    tag("co   h    tag("co   h    tag("co   h    tag(('dh    tag(      h    tag("co   h    tag("co   h    tag("co   h    tag("co   h    tag((nary=0"
                 }
             }
         }
